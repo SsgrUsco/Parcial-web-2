@@ -1,5 +1,7 @@
 # Parcial-web-2
 
+# El código se encuentra en la rama master
+
 # Queries para la creacion de la db
 
 CREATE DATABASE IF NOT EXISTS parcial_2
