@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Medicos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="page">
+    <section class="hero compact">
+        <div class="eyebrow">Administrador</div>
+        <h1 th:text="${titulo}">Medicos</h1>
+        <p class="lead">Desde aqui puedes crear, editar y eliminar medicos del sistema.</p>
+        <div class="actions">
+            <a class="btn btn-primary" th:href="@{/admin/medicos/nuevo}">Nuevo medico</a>
+            <a class="btn btn-secondary" th:href="@{/admin/consultas}">Volver a consultas</a>
+        </div>
+    </section>
+
+    <div th:if="${mensaje}" class="alert success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+
+    <section class="panel">
+        <table>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="medico : ${medicos}">
+                <td th:text="${medico.nombreCompleto}">Medico</td>
+                <td th:text="${medico.username}">usuario</td>
+                <td>
+                    <div class="table-actions">
+                        <a class="btn btn-table" th:href="@{'/admin/medicos/' + ${medico.id} + '/editar'}">Editar</a>
+                        <form th:action="@{'/admin/medicos/' + ${medico.id} + '/eliminar'}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

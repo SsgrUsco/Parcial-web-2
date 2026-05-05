@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Consultas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="page">
+    <section class="hero">
+        <div class="eyebrow" th:text="${vista}">ROL</div>
+        <h1 th:text="${titulo}">Panel</h1>
+        <p class="lead" th:if="${vista == 'ADMINISTRADOR'}">Puedes crear, editar y eliminar consultas medicas, ademas de administrar medicos y asignar consultorios.</p>
+        <p class="lead" th:if="${vista == 'MEDICO'}">Solo visualizas las consultas medicas que te fueron asignadas.</p>
+        <p class="lead" th:if="${vista == 'PACIENTE'}">Puedes visualizar tus citas y actualizar unicamente el horario de las que te pertenecen.</p>
+        <div class="actions">
+            <a class="btn btn-primary" th:if="${vista == 'ADMINISTRADOR'}" th:href="@{/admin/consultas/nueva}">Nueva consulta</a>
+            <a class="btn btn-secondary" th:if="${vista == 'ADMINISTRADOR'}" th:href="@{/admin/medicos}">Gestionar medicos</a>
+            <a class="btn btn-secondary" th:href="@{/swagger-ui.html}">Swagger UI</a>
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-secondary">Cerrar sesion</button>
+            </form>
+        </div>
+    </section>
+
+    <div th:if="${mensaje}" class="alert success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert error" th:text="${error}"></div>
+
+    <section class="panel">
+        <table>
+            <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Motivo</th>
+                <th>Consultorio</th>
+                <th>Horario</th>
+                <th>Medico</th>
+                <th th:if="${vista != 'MEDICO'}">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="consulta : ${consultas}">
+                <td th:text="${consulta.nombrePaciente}">Paciente</td>
+                <td th:text="${consulta.motivoConsulta}">Motivo</td>
+                <td th:text="${consulta.numeroConsultorio}">12</td>
+                <td th:text="${#temporals.format(consulta.horaInicio, 'HH:mm') + ' - ' + #temporals.format(consulta.horaFin, 'HH:mm')}">08:00 - 09:00</td>
+                <td th:text="${consulta.medico.nombreCompleto}">Medico</td>
+                <td th:if="${vista != 'MEDICO'}">
+                    <div class="table-actions" th:if="${vista == 'ADMINISTRADOR'}">
+                        <a class="btn btn-table" th:href="@{'/admin/consultas/' + ${consulta.id} + '/editar'}">Editar</a>
+                        <form th:action="@{'/admin/consultas/' + ${consulta.id} + '/eliminar'}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                    <div class="table-actions" th:if="${vista == 'PACIENTE'}">
+                        <a class="btn btn-table"
+                           th:if="${consulta.paciente.username == usuarioActual}"
+                           th:href="@{'/paciente/consultas/' + ${consulta.id} + '/horario'}">Actualizar horario</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

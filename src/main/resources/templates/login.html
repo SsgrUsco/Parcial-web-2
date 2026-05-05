@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcial2 - Inicio de sesion</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="login-body">
+<main class="login-shell">
+    <section class="login-card">
+        <div class="eyebrow">Parcial2</div>
+        <h1>Gestion de consultas medicas</h1>
+        <p class="lead">Ingresa con un usuario registrado para acceder como administrador, medico o paciente.</p>
+
+        <div th:if="${param.error}" class="alert error">Credenciales invalidas. Verifica tu usuario y contrasena.</div>
+        <div th:if="${param.logout}" class="alert success">Sesion cerrada correctamente.</div>
+
+        <form th:action="@{/login}" method="post" class="form-grid">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <label>
+                Usuario
+                <input type="text" name="username" placeholder="Ingresa tu usuario" required>
+            </label>
+            <label>
+                Contrasena
+                <input type="password" name="password" placeholder="Ingresa tu contrasena" required>
+            </label>
+            <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+        </form>
+
+        <div class="demo-box">
+            <h2>Documentacion disponible</h2>
+            <p>Los servicios web del parcial pueden probarse desde Swagger UI.</p>
+            <p><strong>Swagger UI:</strong> <a th:href="@{/swagger-ui.html}">abrir documentacion</a></p>
+        </div>
+    </section>
+</main>
+</body>
+</html>

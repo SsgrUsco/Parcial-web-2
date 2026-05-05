@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Medico</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="page">
+    <section class="hero compact">
+        <div class="eyebrow">Administrador</div>
+        <h1 th:text="${titulo}">Medico</h1>
+        <p class="lead">Registra o modifica la cuenta de un medico para asignarlo a las consultas.</p>
+    </section>
+
+    <section class="panel">
+        <div th:if="${error}" class="alert error" th:text="${error}"></div>
+
+        <form th:action="${action}" th:object="${medico}" method="post" class="form-grid">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <label>
+                Nombre completo
+                <input type="text" th:field="*{nombreCompleto}" maxlength="80" required>
+                <small class="field-error" th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}"></small>
+            </label>
+
+            <label>
+                Usuario
+                <input type="text" th:field="*{username}" maxlength="40" required>
+                <small class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+            </label>
+
+            <label>
+                Contrasena
+                <input type="password" name="passwordPlano" placeholder="Solo diligencia si quieres asignar o cambiar la contrasena">
+            </label>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-secondary" th:href="@{/admin/medicos}">Cancelar</a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>
