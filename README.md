@@ -2,7 +2,15 @@
 
 # El código se encuentra en la rama master
 
-# Queries para la creacion de la db
+# Claves para probar:
+admin / adminClinica2026
+medico1 / medicoCardio2026
+medico2 / medicoGeneral2026
+paciente1 / pacienteSalud2026
+paciente2 / pacienteControl2026
+
+
+# Queries para la creacion de la db:
 
 CREATE DATABASE IF NOT EXISTS parcial_2
   CHARACTER SET utf8mb4
